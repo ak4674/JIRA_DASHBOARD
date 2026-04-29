@@ -1,0 +1,121 @@
+Sprint Name,State,Start Date,End Date,Goal,Team
+Apollo Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Apollo
+Apollo Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Apollo
+Apollo Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Apollo
+Apollo Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Apollo
+Apollo Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Apollo
+Apollo Sprint 26,Active,2026-04-14,2026-04-27,Ship checkout one-page flow to GA,Apollo
+Hermes Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Hermes
+Hermes Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Hermes
+Hermes Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Hermes
+Hermes Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Hermes
+Hermes Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Hermes
+Hermes Sprint 26,Active,2026-04-14,2026-04-27,Reduce search p95 to <250ms in staging,Hermes
+Zephyr Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Zephyr
+Zephyr Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Zephyr
+Zephyr Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Zephyr
+Zephyr Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Zephyr
+Zephyr Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Zephyr
+Zephyr Sprint 26,Active,2026-04-14,2026-04-27,Wire referral codes end-to-end,Zephyr
+Iris Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Iris
+Iris Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Iris
+Iris Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Iris
+Iris Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Iris
+Iris Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Iris
+Iris Sprint 26,Active,2026-04-14,2026-04-27,Migrate Identity to managed IdP (read-side),Iris
+Helios Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Helios
+Helios Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Helios
+Helios Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Helios
+Helios Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Helios
+Helios Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Helios
+Helios Sprint 26,Active,2026-04-14,2026-04-27,Quota dashboard public beta,Helios
+Selene Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Selene
+Selene Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Selene
+Selene Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Selene
+Selene Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Selene
+Selene Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Selene
+Selene Sprint 26,Active,2026-04-14,2026-04-27,Cut notification queue p99 latency 30%,Selene
+Atlas Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Atlas
+Atlas Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Atlas
+Atlas Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Atlas
+Atlas Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Atlas
+Atlas Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Atlas
+Atlas Sprint 26,Active,2026-04-14,2026-04-27,Tier-2 region cutover dry-run,Atlas
+Orion Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Orion
+Orion Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Orion
+Orion Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Orion
+Orion Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Orion
+Orion Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Orion
+Orion Sprint 26,Active,2026-04-14,2026-04-27,Telemetry sampling rate to 100% for Payments,Orion
+Vega Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Vega
+Vega Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Vega
+Vega Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Vega
+Vega Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Vega
+Vega Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Vega
+Vega Sprint 26,Active,2026-04-14,2026-04-27,Self-serve refund tooling for support,Vega
+Lyra Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Lyra
+Lyra Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Lyra
+Lyra Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Lyra
+Lyra Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Lyra
+Lyra Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Lyra
+Lyra Sprint 26,Active,2026-04-14,2026-04-27,Catalog import v2 with rollback,Lyra
+Cygnus Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Cygnus
+Cygnus Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Cygnus
+Cygnus Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Cygnus
+Cygnus Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Cygnus
+Cygnus Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Cygnus
+Cygnus Sprint 26,Active,2026-04-14,2026-04-27,Mobile push token refresh shipped,Cygnus
+Pioneer Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Pioneer
+Pioneer Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Pioneer
+Pioneer Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Pioneer
+Pioneer Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Pioneer
+Pioneer Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Pioneer
+Pioneer Sprint 26,Active,2026-04-14,2026-04-27,Inventory reconciliation nightly job,Pioneer
+Voyager Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Voyager
+Voyager Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Voyager
+Voyager Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Voyager
+Voyager Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Voyager
+Voyager Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Voyager
+Voyager Sprint 26,Active,2026-04-14,2026-04-27,Cassandra to managed Postgres for Reporting,Voyager
+Cassini Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Cassini
+Cassini Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Cassini
+Cassini Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Cassini
+Cassini Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Cassini
+Cassini Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Cassini
+Cassini Sprint 26,Active,2026-04-14,2026-04-27,Defect taxonomy auto-tagging,Cassini
+Juno Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Juno
+Juno Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Juno
+Juno Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Juno
+Juno Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Juno
+Juno Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Juno
+Juno Sprint 26,Active,2026-04-14,2026-04-27,Kubernetes cluster upgrade (canary),Juno
+Summit Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Summit
+Summit Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Summit
+Summit Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Summit
+Summit Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Summit
+Summit Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Summit
+Summit Sprint 26,Active,2026-04-14,2026-04-27,Identity SSO partner #3 integration,Summit
+Ridge Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Ridge
+Ridge Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Ridge
+Ridge Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Ridge
+Ridge Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Ridge
+Ridge Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Ridge
+Ridge Sprint 26,Active,2026-04-14,2026-04-27,Webhook delivery retries with DLQ,Ridge
+Canyon Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Canyon
+Canyon Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Canyon
+Canyon Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Canyon
+Canyon Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Canyon
+Canyon Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Canyon
+Canyon Sprint 26,Active,2026-04-14,2026-04-27,Search relevance v4 A/B,Canyon
+Mesa Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Mesa
+Mesa Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Mesa
+Mesa Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Mesa
+Mesa Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Mesa
+Mesa Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Mesa
+Mesa Sprint 26,Active,2026-04-14,2026-04-27,Reporting export to Snowflake,Mesa
+Vista Sprint 21,Closed,2026-02-03,2026-02-16,Sprint 21 delivery,Vista
+Vista Sprint 22,Closed,2026-02-17,2026-03-02,Sprint 22 delivery,Vista
+Vista Sprint 23,Closed,2026-03-03,2026-03-16,Sprint 23 delivery,Vista
+Vista Sprint 24,Closed,2026-03-17,2026-03-30,Sprint 24 delivery,Vista
+Vista Sprint 25,Closed,2026-03-31,2026-04-13,Sprint 25 delivery,Vista
+Vista Sprint 26,Active,2026-04-14,2026-04-27,Notification preferences UI redesign,Vista
