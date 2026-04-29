@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import styles from '../dashboard.module.css';
 import type { DashboardData } from '@/lib/csv-parser';
-import { Activity, Clock, User, ChevronRight, TrendingUp } from 'lucide-react';
+import { Activity, Clock, User, ChevronRight, TrendingUp, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function TeamView({ data }: { data: DashboardData }) {
@@ -76,8 +76,8 @@ export default function TeamView({ data }: { data: DashboardData }) {
               <div style={{display:'flex',alignItems:'flex-end',gap:12,height:140,padding:'0 0.5rem'}}>
                 {closedSprints.map((s,i)=>(
                   <div key={i} style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:6}}>
-                    <div style={{position:'relative',width:'100%',display:'flex',justifyContent:'center'}}>
-                      <motion.div initial={{height:0}} animate={{height:s.sayDo}} transition={{delay:0.2+i*0.1}}
+                    <div style={{height:100, width:'100%', display:'flex', alignItems:'flex-end', justifyContent:'center'}}>
+                      <motion.div initial={{height:0}} animate={{height:`${s.sayDo}%`}} transition={{delay:0.2+i*0.1}}
                         style={{width:'100%',maxWidth:32,borderRadius:'4px 4px 2px 2px',background:s.sayDo>=80?'linear-gradient(180deg,#10b981,#059669)':s.sayDo>=60?'linear-gradient(180deg,#f59e0b,#d97706)':'linear-gradient(180deg,#f43f5e,#dc2626)'}} />
                     </div>
                     <span style={{fontSize:10,fontWeight:800,color:'#334155'}}>{s.sayDo}%</span>
@@ -98,9 +98,11 @@ export default function TeamView({ data }: { data: DashboardData }) {
                 {(() => {
                   const maxPts = Math.max(...closedSprints.map(s => s.completedPts), 1);
                   return closedSprints.map((s,i)=>(
-                    <div key={i} style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:6,height:'100%',justifyContent:'flex-end'}}>
-                      <motion.div initial={{height:0}} animate={{height:`${(s.completedPts / maxPts) * 100}%`}} transition={{delay:0.2+i*0.1}}
-                        style={{width:'100%',maxWidth:32,borderRadius:'4px 4px 2px 2px',background:'linear-gradient(180deg,#6366f1,#4f46e5)',boxShadow:'0 4px 10px rgba(99,102,241,0.2)',minHeight:4}} />
+                    <div key={i} style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:6}}>
+                      <div style={{height:100, width:'100%', display:'flex', alignItems:'flex-end', justifyContent:'center'}}>
+                        <motion.div initial={{height:0}} animate={{height:`${(s.completedPts / maxPts) * 100}%`}} transition={{delay:0.2+i*0.1}}
+                          style={{width:'100%',maxWidth:32,borderRadius:'4px 4px 2px 2px',background:'linear-gradient(180deg,#6366f1,#4f46e5)',boxShadow:'0 4px 10px rgba(99,102,241,0.2)',minHeight:4}} />
+                      </div>
                       <span style={{fontSize:10,fontWeight:800,color:'#334155'}}>{s.completedPts}</span>
                       <span style={{fontSize:9,fontWeight:700,color:'#94a3b8'}}>S{s.name.match(/\d+$/)?.[0]}</span>
                     </div>
