@@ -3,7 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutDashboard, Users, Activity, ShieldCheck, Zap, BarChart3, Settings, LogOut, Link2 } from 'lucide-react';
+import { 
+  LayoutDashboard, Users, Activity, ShieldCheck, Zap, 
+  BarChart3, Settings, LogOut, Link2, RefreshCcw,
+  Database, Globe
+} from 'lucide-react';
 import styles from './dashboard.module.css';
 import type { DashboardData } from '@/lib/csv-parser';
 import ExecutiveSummary from './components/ExecutiveSummary';
@@ -21,15 +25,37 @@ export default function JiraDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [user, setUser] = useState<{ email: string; name: string } | null>(null);
+  const [mode, setMode] = useState<'simulation' | 'live'>('simulation');
+
+  const loadData = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const config = localStorage.getItem('jira_config');
+      const currentMode = config ? JSON.parse(config).mode : 'simulation';
+      setMode(currentMode);
+
+      const url = currentMode === 'simulation' ? '/api/data' : '/api/jira/fetch-all'; // hypothetical live fetch
+      const res = await fetch(url);
+      const d = await res.json();
+      
+      if (res.ok) {
+        setData(d);
+      } else {
+        setError(d.error || 'Failed to load data');
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Unknown error');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const u = localStorage.getItem('jira_dash_user');
     if (!u) { router.replace('/login'); return; }
     setUser(JSON.parse(u));
-    fetch('/api/data')
-      .then(r => r.json())
-      .then(d => { setData(d); setLoading(false); })
-      .catch(e => { setError(e.message); setLoading(false); });
+    loadData();
   }, [router]);
 
   const logout = () => {
@@ -38,58 +64,75 @@ export default function JiraDashboard() {
   };
 
   const tabs = [
-    { id: 'executive', label: 'Executive Summary', icon: LayoutDashboard },
+    { id: 'executive', label: 'Overview', icon: LayoutDashboard },
     { id: 'art', label: 'ART / Program', icon: Users },
-    { id: 'team', label: 'Team View', icon: Activity },
-    { id: 'backlog', label: 'Backlog Health', icon: BarChart3 },
-    { id: 'quality', label: 'Quality Intelligence', icon: ShieldCheck },
-    { id: 'engineering', label: 'Engineering Excellence', icon: Zap },
-    { id: 'dependencies', label: 'Dependencies', icon: Link2 },
+    { id: 'team', label: 'Team Pulse', icon: Activity },
+    { id: 'backlog', label: 'Backlog', icon: BarChart3 },
+    { id: 'quality', label: 'Quality', icon: ShieldCheck },
+    { id: 'engineering', label: 'Engineering', icon: Zap },
+    { id: 'dependencies', label: 'Network', icon: Link2 },
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
   if (loading) {
     return (
       <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',background:'#f4f5f7'}}>
-        <div style={{textAlign:'center'}}>
-          <div style={{width:48,height:48,background:'#2563eb',borderRadius:'50%',margin:'0 auto 1rem',animation:'pulse 2s infinite'}} />
-          <div style={{color:'#2563eb',fontWeight:700}}>Parsing Velocita Jira data (4,269 issues)...</div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error || !data) {
-    return (
-      <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',background:'#f4f5f7'}}>
-        <div style={{textAlign:'center',color:'#f43f5e',fontWeight:600}}>Error: {error || 'No data loaded'}</div>
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          style={{textAlign:'center'}}>
+          <div className={styles.loader}>
+            <div className={styles.loaderCircle} />
+          </div>
+          <div style={{color:'#1e40af',fontWeight:800,fontSize:'1.25rem',marginTop:'1.5rem'}}>Intelligence Hub</div>
+          <div style={{color:'#64748b',fontSize:'0.875rem',marginTop:4}}>Synthesizing {mode === 'simulation' ? '4,269 Velocita issues' : 'Live Jira Data'}...</div>
+        </motion.div>
       </div>
     );
   }
 
   return (
     <div className={styles.dashboardContainer}>
-      <main>
+      <main style={{maxWidth:1400,margin:'0 auto'}}>
         <header className={styles.header}>
           <div>
-            <h1 className={styles.title}>{tabs.find(t => t.id === activeTab)?.label}</h1>
-            <p style={{color:'#64748b',fontSize:'0.875rem',marginTop:4}}>
-              {data.portfolio.name} • PI 26.2 • {data.portfolio.totalTeams} Teams • {data.portfolio.totalIssues.toLocaleString()} Issues
+            <motion.h1 
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              className={styles.title}>
+              {tabs.find(t => t.id === activeTab)?.label}
+            </motion.h1>
+            <p style={{color:'#64748b',fontSize:'0.875rem',fontWeight:500,marginTop:4,display:'flex',alignItems:'center',gap:6}}>
+              <span style={{color:'#2563eb',fontWeight:700}}>{data?.portfolio.name || 'Jira Hub'}</span>
+              <span style={{color:'#cbd5e1'}}>•</span>
+              <span>PI 26.2</span>
+              <span style={{color:'#cbd5e1'}}>•</span>
+              <span>{data?.portfolio.totalTeams} Teams</span>
             </p>
           </div>
+          
           <div className={styles.headerActions}>
-            <div style={{padding:'0.5rem 1rem',background:'white',borderRadius:12,border:'1px solid #e2e8f0',display:'flex',alignItems:'center',gap:8}}>
-              <span style={{width:8,height:8,background:'#22c55e',borderRadius:'50%'}} />
-              <span style={{fontSize:'0.8125rem',fontWeight:500}}>Velocita CSV • Simulation Mode</span>
+            <div style={{padding:'4px',background:'rgba(255,255,255,0.6)',borderRadius:14,border:'1px solid rgba(226,232,240,0.8)',display:'flex',gap:4}}>
+              <div style={{padding:'6px 12px',borderRadius:10,display:'flex',alignItems:'center',gap:8,background:'white',boxShadow:'0 2px 8px rgba(0,0,0,0.05)'}}>
+                {mode === 'simulation' ? <Database style={{width:14,height:14,color:'#2563eb'}} /> : <Globe style={{width:14,height:14,color:'#10b981'}} />}
+                <span style={{fontSize:'0.75rem',fontWeight:700,color:'#334155'}}>{mode === 'simulation' ? 'Simulation' : 'Live'}</span>
+              </div>
+              <button onClick={loadData} title="Refresh Data" style={{background:'none',border:'none',padding:'6px 10px',cursor:'pointer',color:'#64748b'}}>
+                <RefreshCcw style={{width:16,height:16}} />
+              </button>
             </div>
+
             {user && (
-              <div style={{padding:'0.5rem 1rem',background:'white',borderRadius:12,border:'1px solid #e2e8f0',display:'flex',alignItems:'center',gap:8}}>
-                <div style={{width:28,height:28,borderRadius:'50%',background:'linear-gradient(135deg,#6366f1,#2563eb)',display:'flex',alignItems:'center',justifyContent:'center',color:'white',fontWeight:700,fontSize:12}}>
+              <div style={{padding:'0.5rem 1rem',background:'rgba(255,255,255,0.6)',borderRadius:14,border:'1px solid rgba(226,232,240,0.8)',display:'flex',alignItems:'center',gap:10}}>
+                <div style={{width:30,height:30,borderRadius:10,background:'linear-gradient(135deg,#6366f1,#2563eb)',display:'flex',alignItems:'center',justifyContent:'center',color:'white',fontWeight:800,fontSize:14,boxShadow:'0 4px 12px rgba(37,99,235,0.2)'}}>
                   {user.name.charAt(0).toUpperCase()}
                 </div>
-                <span style={{fontSize:'0.8125rem',fontWeight:600}}>{user.name}</span>
-                <button onClick={logout} title="Logout" style={{background:'none',border:'none',cursor:'pointer',padding:2,display:'flex'}}>
-                  <LogOut style={{width:16,height:16,color:'#94a3b8'}} />
+                <div style={{display:'flex',flexDirection:'column'}}>
+                  <span style={{fontSize:'0.8125rem',fontWeight:700,color:'#1e293b'}}>{user.name}</span>
+                  <span style={{fontSize:'0.6875rem',color:'#64748b',fontWeight:500}}>Lead Engineer</span>
+                </div>
+                <button onClick={logout} style={{background:'none',border:'none',cursor:'pointer',padding:4,color:'#94a3b8',marginLeft:4}}>
+                  <LogOut style={{width:18,height:18}} />
                 </button>
               </div>
             )}
@@ -101,28 +144,65 @@ export default function JiraDashboard() {
             {tabs.map((tab) => (
               <button key={tab.id} onClick={() => setActiveTab(tab.id)}
                 className={`${styles.tabBtn} ${activeTab === tab.id ? styles.tabBtnActive : ''}`}>
-                <tab.icon style={{width:16,height:16}} />
+                <tab.icon style={{width:18,height:18}} />
                 <span>{tab.label}</span>
               </button>
             ))}
           </div>
         </div>
 
+        {error && (
+          <div style={{padding:'1rem',borderRadius:16,background:'#ffebe6',color:'#bf2600',border:'1px solid #ffbdad',marginBottom:'1.5rem',fontWeight:600,fontSize:'0.875rem'}}>
+            Error loading data: {error}. {mode === 'live' && 'Please check your Jira credentials in Settings.'}
+          </div>
+        )}
+
         <AnimatePresence mode="wait">
           <motion.div key={activeTab}
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}>
-            {activeTab === 'executive' && <ExecutiveSummary data={data} />}
-            {activeTab === 'art' && <ARTView data={data} />}
-            {activeTab === 'team' && <TeamView data={data} />}
-            {activeTab === 'backlog' && <BacklogView data={data} />}
-            {activeTab === 'quality' && <QualityView data={data} />}
-            {activeTab === 'engineering' && <EngineeringView data={data} />}
-            {activeTab === 'dependencies' && <DependenciesView data={data} />}
+            initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.3, ease: 'easeOut' }}>
+            {data && activeTab === 'executive' && <ExecutiveSummary data={data} />}
+            {data && activeTab === 'art' && <ARTView data={data} />}
+            {data && activeTab === 'team' && <TeamView data={data} />}
+            {data && activeTab === 'backlog' && <BacklogView data={data} />}
+            {data && activeTab === 'quality' && <QualityView data={data} />}
+            {data && activeTab === 'engineering' && <EngineeringView data={data} />}
+            {data && activeTab === 'dependencies' && <DependenciesView data={data} />}
             {activeTab === 'settings' && <SettingsView />}
           </motion.div>
         </AnimatePresence>
       </main>
+
+      <style jsx global>{`
+        @keyframes pulse {
+          0% { transform: scale(1); opacity: 0.8; }
+          50% { transform: scale(1.1); opacity: 1; }
+          100% { transform: scale(1); opacity: 0.8; }
+        }
+        .loader {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          position: relative;
+          background: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+        }
+        .loaderCircle {
+          width: 40px;
+          height: 40px;
+          border: 4px solid #f1f5f9;
+          border-top-color: #2563eb;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 }
@@ -132,32 +212,41 @@ function DependenciesView({ data }: { data: DashboardData }) {
     <div style={{display:'flex',flexDirection:'column',gap:'1.5rem'}}>
       <div className={styles.grid}>
         <div className={styles.card}>
-          <div className={styles.kpiLabel}>Total Dependencies</div>
+          <div className={styles.kpiLabel}>Total Linkages</div>
           <div className={styles.kpiValue}>{data.dependencies.length}</div>
+          <div className={styles.badgeSuccess} style={{fontSize:10,padding:'2px 8px',borderRadius:4,display:'inline'}}>Active Network</div>
         </div>
         <div className={styles.card}>
-          <div className={styles.kpiLabel}>In Progress</div>
-          <div className={styles.kpiValue}>{data.dependencies.filter(d=>d.status==='In Progress').length}</div>
+          <div className={styles.kpiLabel}>Resolved</div>
+          <div className={styles.kpiValue}>{data.dependencies.filter(d=>d.status==='Done').length}</div>
+          <div style={{fontSize:11,color:'#64748b',fontWeight:600}}>Blocking issues cleared</div>
         </div>
         <div className={styles.card}>
-          <div className={styles.kpiLabel}>Blocked (To Do)</div>
-          <div className={styles.kpiValue} style={{color:'#f43f5e'}}>{data.dependencies.filter(d=>d.status==='To Do').length}</div>
+          <div className={styles.kpiLabel}>Critical Path</div>
+          <div className={styles.kpiValue} style={{color:'#f43f5e'}}>{data.dependencies.filter(d=>d.priority==='Highest').length}</div>
+          <div className={styles.badgeDanger} style={{fontSize:10,padding:'2px 8px',borderRadius:4,display:'inline'}}>High Attention</div>
         </div>
       </div>
       <div className={styles.card}>
-        <h3 style={{fontWeight:700,fontSize:'1.125rem',marginBottom:'1rem'}}>Cross-Team Dependencies</h3>
+        <h3 style={{fontWeight:700,fontSize:'1.125rem',marginBottom:'1rem',display:'flex',alignItems:'center',gap:8}}>
+          <Link2 style={{width:20,height:20,color:'#2563eb'}} /> Cross-Team Dependency Matrix
+        </h3>
         <div className={styles.tableWrap}>
           <table className={styles.table}>
-            <thead><tr><th>ID</th><th>Dependency</th><th>From</th><th>To</th><th>Priority</th><th>Status</th></tr></thead>
+            <thead><tr><th>Reference</th><th>Dependency Name</th><th>Producer Team</th><th>Consumer Team</th><th>Impact</th><th>Status</th></tr></thead>
             <tbody>
               {data.dependencies.map(d=>(
                 <tr key={d.id}>
                   <td style={{fontWeight:700,color:'#2563eb'}}>{d.id}</td>
-                  <td style={{fontWeight:600,maxWidth:250,overflow:'hidden',textOverflow:'ellipsis'}}>{d.title}</td>
-                  <td>{d.from}</td>
-                  <td>{d.to}</td>
-                  <td><span style={{fontSize:'0.6875rem',fontWeight:700,padding:'2px 8px',borderRadius:4,background:d.priority==='Highest'?'#ffebe6':d.priority==='High'?'#fffae6':'#eff6ff',color:d.priority==='Highest'?'#bf2600':d.priority==='High'?'#825c00':'#1d4ed8'}}>{d.priority}</span></td>
-                  <td><span style={{fontSize:'0.6875rem',fontWeight:700,padding:'2px 8px',borderRadius:9999,background:d.status==='In Progress'?'#eff6ff':d.status==='To Do'?'#ffebe6':'#e3fcef',color:d.status==='In Progress'?'#1d4ed8':d.status==='To Do'?'#bf2600':'#006644'}}>{d.status}</span></td>
+                  <td style={{fontWeight:600,maxWidth:250,whiteSpace:'normal'}}>{d.title}</td>
+                  <td><span style={{fontWeight:600,color:'#334155'}}>{d.from}</span></td>
+                  <td><span style={{fontWeight:600,color:'#334155'}}>{d.to}</span></td>
+                  <td><span style={{fontSize:'0.6875rem',fontWeight:800,padding:'4px 10px',borderRadius:6,
+                    background:d.priority==='Highest'?'#ffebe6':d.priority==='High'?'#fffae6':'#eff6ff',
+                    color:d.priority==='Highest'?'#bf2600':d.priority==='High'?'#825c00':'#1d4ed8'}}>{d.priority}</span></td>
+                  <td><span style={{fontSize:'0.6875rem',fontWeight:800,padding:'4px 10px',borderRadius:9999,
+                    background:d.status==='In Progress'?'#eff6ff':d.status==='To Do'?'#ffebe6':'#e3fcef',
+                    color:d.status==='In Progress'?'#1d4ed8':d.status==='To Do'?'#bf2600':'#006644'}}>{d.status}</span></td>
                 </tr>
               ))}
             </tbody>
