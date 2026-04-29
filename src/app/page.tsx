@@ -31,12 +31,38 @@ export default function JiraDashboard() {
     setLoading(true);
     setError('');
     try {
-      const config = localStorage.getItem('jira_config');
-      const currentMode = config ? JSON.parse(config).mode : 'simulation';
+      const configStr = localStorage.getItem('jira_config');
+      if (!configStr) {
+        // Default to simulation if no config exists
+        const res = await fetch('/api/data');
+        const d = await res.json();
+        setData(d);
+        setLoading(false);
+        return;
+      }
+
+      const config = JSON.parse(configStr);
+      const currentMode = config.mode || 'simulation';
       setMode(currentMode);
 
-      const url = currentMode === 'simulation' ? '/api/data' : '/api/jira/fetch-all'; // hypothetical live fetch
-      const res = await fetch(url);
+      let res;
+      if (currentMode === 'simulation') {
+        res = await fetch('/api/data');
+      } else {
+        // For live mode, we use POST to securely pass credentials
+        res = await fetch('/api/jira/fetch-all', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(config)
+        });
+      }
+
+      const contentType = res.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await res.text();
+        throw new Error(`Invalid response from server: ${text.slice(0, 100)}`);
+      }
+
       const d = await res.json();
       
       if (res.ok) {
@@ -45,6 +71,7 @@ export default function JiraDashboard() {
         setError(d.error || 'Failed to load data');
       }
     } catch (e) {
+      console.error('Fetch error:', e);
       setError(e instanceof Error ? e.message : 'Unknown error');
     } finally {
       setLoading(false);
