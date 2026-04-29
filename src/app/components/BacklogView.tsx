@@ -56,18 +56,22 @@ export default function BacklogView({ data }: { data: DashboardData }) {
           </div>
         </div>
         <div style={{display:'flex',gap:'1.5rem',alignItems:'flex-end',height:160,padding:'0 1rem'}}>
-          {Object.entries(agingBuckets).map(([k,v], i)=>(
-            <div key={k} style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:8}}>
-              <div style={{position:'relative', width:'100%', display:'flex', justifyContent:'center'}}>
-                <motion.div 
-                  initial={{ height: 0 }} animate={{ height: Math.max(16, v * 2) }}
-                  transition={{ delay: 0.3 + i * 0.1, duration: 0.8, type: 'spring' }}
-                  style={{width:'100%',maxWidth:60,borderRadius:'8px 8px 2px 2px',background:k==='90d+'?'linear-gradient(180deg,#f43f5e,#dc2626)':k==='31-90d'?'linear-gradient(180deg,#f59e0b,#d97706)':k==='8-30d'?'linear-gradient(180deg,#3b82f6,#2563eb)':'linear-gradient(180deg,#10b981,#059669)', boxShadow:'0 4px 15px rgba(0,0,0,0.05)'}} />
-                <span style={{position:'absolute', top:-20, fontSize:11, fontWeight:800, color:'#1e293b'}}>{v}</span>
+          {(() => {
+            const maxVal = Math.max(...Object.values(agingBuckets), 1);
+            return Object.entries(agingBuckets).map(([k,v], i)=>(
+              <div key={k} style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:8,height:'100%',justifyContent:'flex-end'}}>
+                <div style={{position:'relative', width:'100%', display:'flex', justifyContent:'center'}}>
+                  <motion.div 
+                    initial={{ height: 0 }} 
+                    animate={{ height: `${(v / maxVal) * 100}%` }}
+                    transition={{ delay: 0.3 + i * 0.1, duration: 0.8, type: 'spring' }}
+                    style={{width:'100%',maxWidth:60,borderRadius:'8px 8px 2px 2px',background:k==='90d+'?'linear-gradient(180deg,#f43f5e,#dc2626)':k==='31-90d'?'linear-gradient(180deg,#f59e0b,#d97706)':k==='8-30d'?'linear-gradient(180deg,#3b82f6,#2563eb)':'linear-gradient(180deg,#10b981,#059669)', boxShadow:'0 4px 15px rgba(0,0,0,0.05)',minHeight:4}} />
+                  <span style={{position:'absolute', top:-20, fontSize:11, fontWeight:800, color:'#1e293b'}}>{v}</span>
+                </div>
+                <span style={{fontSize:11,fontWeight:700,color:'#94a3b8'}}>{k}</span>
               </div>
-              <span style={{fontSize:11,fontWeight:700,color:'#94a3b8'}}>{k}</span>
-            </div>
-          ))}
+            ));
+          })()}
         </div>
       </motion.div>
 

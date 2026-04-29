@@ -70,18 +70,22 @@ export default function ExecutiveSummary({ data }: { data: DashboardData }) {
               <span style={{fontSize:'0.6875rem',fontWeight:800,color:'#2563eb',background:'#eff6ff',padding:'4px 8px',borderRadius:6}}>LAST 8 WEEKS</span>
             </div>
             <div style={{display:'flex',alignItems:'flex-end',gap:12,height:160,padding:'0 0.5rem'}}>
-              {data.flowMetrics.velocity.map((v,i)=>(
-                <div key={i} style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:6}}>
-                  <div style={{position:'relative',width:'100%',display:'flex',flexDirection:'column',alignItems:'center'}}>
-                    <motion.div 
-                      initial={{ height: 0 }} animate={{ height: Math.max(12, v.value * 0.2) }}
-                      transition={{ delay: 0.5 + i * 0.1, duration: 0.8 }}
-                      style={{width:'100%',maxWidth:40,background:'linear-gradient(180deg,#3b82f6,#6366f1)',borderRadius:'6px 6px 2px 2px',boxShadow:'0 4px 12px rgba(37,99,235,0.15)'}} />
-                    <span style={{fontSize:10,fontWeight:800,color:'#1e293b',marginTop:4}}>{v.value}</span>
+              {(() => {
+                const maxVal = Math.max(...data.flowMetrics.velocity.map(v => v.value), 1);
+                return data.flowMetrics.velocity.map((v,i)=>(
+                  <div key={i} style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:6,height:'100%',justifyContent:'flex-end'}}>
+                    <div style={{position:'relative',width:'100%',display:'flex',flexDirection:'column',alignItems:'center'}}>
+                      <motion.div 
+                        initial={{ height: 0 }} 
+                        animate={{ height: `${(v.value / maxVal) * 100}%` }}
+                        transition={{ delay: 0.5 + i * 0.1, duration: 0.8 }}
+                        style={{width:'100%',maxWidth:40,background:'linear-gradient(180deg,#3b82f6,#6366f1)',borderRadius:'6px 6px 2px 2px',boxShadow:'0 4px 12px rgba(37,99,235,0.15)',minHeight:4}} />
+                      <span style={{fontSize:10,fontWeight:800,color:'#1e293b',marginTop:4}}>{v.value}</span>
+                    </div>
+                    <span style={{fontSize:9,fontWeight:700,color:'#94a3b8',whiteSpace:'nowrap',transform:'rotate(-45deg)',marginTop:8}}>{v.week.slice(5)}</span>
                   </div>
-                  <span style={{fontSize:9,fontWeight:700,color:'#94a3b8',whiteSpace:'nowrap',transform:'rotate(-45deg)',marginTop:8}}>{v.week.slice(5)}</span>
-                </div>
-              ))}
+                ));
+              })()}
             </div>
           </motion.div>
 

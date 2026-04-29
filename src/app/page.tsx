@@ -115,7 +115,9 @@ export default function JiraDashboard() {
             <div style={{padding:'4px',background:'rgba(255,255,255,0.6)',borderRadius:14,border:'1px solid rgba(226,232,240,0.8)',display:'flex',gap:4}}>
               <div style={{padding:'6px 12px',borderRadius:10,display:'flex',alignItems:'center',gap:8,background:'white',boxShadow:'0 2px 8px rgba(0,0,0,0.05)'}}>
                 {mode === 'simulation' ? <Database style={{width:14,height:14,color:'#2563eb'}} /> : <Globe style={{width:14,height:14,color:'#10b981'}} />}
-                <span style={{fontSize:'0.75rem',fontWeight:700,color:'#334155'}}>{mode === 'simulation' ? 'Simulation' : 'Live'}</span>
+                <span style={{fontSize:'0.75rem',fontWeight:700,color:'#334155'}}>
+                  {mode === 'simulation' ? 'Simulation' : `${localStorage.getItem('jira_config') ? JSON.parse(localStorage.getItem('jira_config')!).tool === 'azure' ? 'Azure DevOps' : 'Jira Cloud' : 'Live'}`}
+                </span>
               </div>
               <button onClick={loadData} title="Refresh Data" style={{background:'none',border:'none',padding:'6px 10px',cursor:'pointer',color:'#64748b'}}>
                 <RefreshCcw style={{width:16,height:16}} />
