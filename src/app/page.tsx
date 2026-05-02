@@ -26,6 +26,15 @@ export default function JiraDashboard() {
   const [error, setError] = useState('');
   const [user, setUser] = useState<{ email: string; name: string } | null>(null);
   const [mode, setMode] = useState<'simulation' | 'live'>('simulation');
+  const [isGadget, setIsGadget] = useState(false);
+
+  useEffect(() => {
+    // Check if we are running inside a Jira Gadget
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('view') === 'gadget') {
+      setIsGadget(true);
+    }
+  }, []);
 
   const loadData = async () => {
     setLoading(true);
@@ -121,64 +130,68 @@ export default function JiraDashboard() {
   return (
     <div className={styles.dashboardContainer}>
       <main style={{maxWidth:1400,margin:'0 auto'}}>
-        <header className={styles.header}>
-          <div>
-            <motion.h1 
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              className={styles.title}>
-              {tabs.find(t => t.id === activeTab)?.label}
-            </motion.h1>
-            <p style={{color:'#64748b',fontSize:'0.875rem',fontWeight:500,marginTop:4,display:'flex',alignItems:'center',gap:6}}>
-              <span style={{color:'#2563eb',fontWeight:700}}>{data?.portfolio.name || 'Jira Hub'}</span>
-              <span style={{color:'#cbd5e1'}}>•</span>
-              <span>PI 26.2</span>
-              <span style={{color:'#cbd5e1'}}>•</span>
-              <span>{data?.portfolio.totalTeams} Teams</span>
-            </p>
-          </div>
-          
-          <div className={styles.headerActions}>
-            <div style={{padding:'4px',background:'rgba(255,255,255,0.6)',borderRadius:14,border:'1px solid rgba(226,232,240,0.8)',display:'flex',gap:4}}>
-              <div style={{padding:'6px 12px',borderRadius:10,display:'flex',alignItems:'center',gap:8,background:'white',boxShadow:'0 2px 8px rgba(0,0,0,0.05)'}}>
-                {mode === 'simulation' ? <Database style={{width:14,height:14,color:'#2563eb'}} /> : <Globe style={{width:14,height:14,color:'#10b981'}} />}
-                <span style={{fontSize:'0.75rem',fontWeight:700,color:'#334155'}}>
-                  {mode === 'simulation' ? 'Simulation' : `${localStorage.getItem('jira_config') ? JSON.parse(localStorage.getItem('jira_config')!).tool === 'azure' ? 'Azure DevOps' : 'Jira Cloud' : 'Live'}`}
-                </span>
-              </div>
-              <button onClick={loadData} title="Refresh Data" style={{background:'none',border:'none',padding:'6px 10px',cursor:'pointer',color:'#64748b'}}>
-                <RefreshCcw style={{width:16,height:16}} />
-              </button>
+        {!isGadget && (
+          <header className={styles.header}>
+            <div>
+              <motion.h1 
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                className={styles.title}>
+                {tabs.find(t => t.id === activeTab)?.label}
+              </motion.h1>
+              <p style={{color:'#64748b',fontSize:'0.875rem',fontWeight:500,marginTop:4,display:'flex',alignItems:'center',gap:6}}>
+                <span style={{color:'#2563eb',fontWeight:700}}>{data?.portfolio.name || 'Jira Hub'}</span>
+                <span style={{color:'#cbd5e1'}}>•</span>
+                <span>PI 26.2</span>
+                <span style={{color:'#cbd5e1'}}>•</span>
+                <span>{data?.portfolio.totalTeams} Teams</span>
+              </p>
             </div>
-
-            {user && (
-              <div style={{padding:'0.5rem 1rem',background:'rgba(255,255,255,0.6)',borderRadius:14,border:'1px solid rgba(226,232,240,0.8)',display:'flex',alignItems:'center',gap:10}}>
-                <div style={{width:30,height:30,borderRadius:10,background:'linear-gradient(135deg,#6366f1,#2563eb)',display:'flex',alignItems:'center',justifyContent:'center',color:'white',fontWeight:800,fontSize:14,boxShadow:'0 4px 12px rgba(37,99,235,0.2)'}}>
-                  {user.name.charAt(0).toUpperCase()}
+            
+            <div className={styles.headerActions}>
+              <div style={{padding:'4px',background:'rgba(255,255,255,0.6)',borderRadius:14,border:'1px solid rgba(226,232,240,0.8)',display:'flex',gap:4}}>
+                <div style={{padding:'6px 12px',borderRadius:10,display:'flex',alignItems:'center',gap:8,background:'white',boxShadow:'0 2px 8px rgba(0,0,0,0.05)'}}>
+                  {mode === 'simulation' ? <Database style={{width:14,height:14,color:'#2563eb'}} /> : <Globe style={{width:14,height:14,color:'#10b981'}} />}
+                  <span style={{fontSize:'0.75rem',fontWeight:700,color:'#334155'}}>
+                    {mode === 'simulation' ? 'Simulation' : `${localStorage.getItem('jira_config') ? JSON.parse(localStorage.getItem('jira_config')!).tool === 'azure' ? 'Azure DevOps' : 'Jira Cloud' : 'Live'}`}
+                  </span>
                 </div>
-                <div style={{display:'flex',flexDirection:'column'}}>
-                  <span style={{fontSize:'0.8125rem',fontWeight:700,color:'#1e293b'}}>{user.name}</span>
-                  <span style={{fontSize:'0.6875rem',color:'#64748b',fontWeight:500}}>Lead Engineer</span>
-                </div>
-                <button onClick={logout} style={{background:'none',border:'none',cursor:'pointer',padding:4,color:'#94a3b8',marginLeft:4}}>
-                  <LogOut style={{width:18,height:18}} />
+                <button onClick={loadData} title="Refresh Data" style={{background:'none',border:'none',padding:'6px 10px',cursor:'pointer',color:'#64748b'}}>
+                  <RefreshCcw style={{width:16,height:16}} />
                 </button>
               </div>
-            )}
-          </div>
-        </header>
 
-        <div className={styles.tabScroller}>
-          <div className={styles.tabBar}>
-            {tabs.map((tab) => (
-              <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                className={`${styles.tabBtn} ${activeTab === tab.id ? styles.tabBtnActive : ''}`}>
-                <tab.icon style={{width:18,height:18}} />
-                <span>{tab.label}</span>
-              </button>
-            ))}
+              {user && (
+                <div style={{padding:'0.5rem 1rem',background:'rgba(255,255,255,0.6)',borderRadius:14,border:'1px solid rgba(226,232,240,0.8)',display:'flex',alignItems:'center',gap:10}}>
+                  <div style={{width:30,height:30,borderRadius:10,background:'linear-gradient(135deg,#6366f1,#2563eb)',display:'flex',alignItems:'center',justifyContent:'center',color:'white',fontWeight:800,fontSize:14,boxShadow:'0 4px 12px rgba(37,99,235,0.2)'}}>
+                    {user.name.charAt(0).toUpperCase()}
+                  </div>
+                  <div style={{display:'flex',flexDirection:'column'}}>
+                    <span style={{fontSize:'0.8125rem',fontWeight:700,color:'#1e293b'}}>{user.name}</span>
+                    <span style={{fontSize:'0.6875rem',color:'#64748b',fontWeight:500}}>Lead Engineer</span>
+                  </div>
+                  <button onClick={logout} style={{background:'none',border:'none',cursor:'pointer',padding:4,color:'#94a3b8',marginLeft:4}}>
+                    <LogOut style={{width:18,height:18}} />
+                  </button>
+                </div>
+              )}
+            </div>
+          </header>
+        )}
+
+        {!isGadget && (
+          <div className={styles.tabScroller}>
+            <div className={styles.tabBar}>
+              {tabs.map((tab) => (
+                <button key={tab.id} onClick={() => setActiveTab(tab.id)}
+                  className={`${styles.tabBtn} ${activeTab === tab.id ? styles.tabBtnActive : ''}`}>
+                  <tab.icon style={{width:18,height:18}} />
+                  <span>{tab.label}</span>
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {error && (
           <div style={{padding:'1rem',borderRadius:16,background:'#ffebe6',color:'#bf2600',border:'1px solid #ffbdad',marginBottom:'1.5rem',fontWeight:600,fontSize:'0.875rem'}}>
