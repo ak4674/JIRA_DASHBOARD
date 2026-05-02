@@ -194,7 +194,7 @@ export default function SettingsView() {
                  <div style={{fontWeight:800, fontSize:'0.875rem', color:'#92400e'}}>Power BI Data Feed (OData)</div>
                  <div style={{fontSize:10, fontWeight:800, color:'#d97706', background:'#fef3c7', padding:'2px 8px', borderRadius:6}}>EXPORT ENABLED</div>
               </div>
-              <p style={{fontSize:'0.75rem', color:'#64748b', marginBottom:12}}>Use this URL in Power BI "Get Data -> Web" to sync your Jira metrics in real-time.</p>
+              <p style={{fontSize:'0.75rem', color:'#64748b', marginBottom:12}}>Use this URL in Power BI "Get Data → Web" to sync your Jira metrics in real-time.</p>
               <div style={{display:'flex', gap:8}}>
                  <input readOnly value={powerBiUrl} className={styles.inputField} style={{background:'#f8fafc', fontSize:'0.7rem', fontFamily:'monospace'}} />
                  <button onClick={() => copyToClipboard(powerBiUrl, 'pbi')} style={{padding:'0 12px', borderRadius:10, border:'1px solid #e2e8f0', background:'white', cursor:'pointer'}}>
@@ -209,7 +209,7 @@ export default function SettingsView() {
                  <div style={{fontWeight:800, fontSize:'0.875rem', color:'#1e40af'}}>Native Jira Dashboard Gadget</div>
                  <div style={{fontSize:10, fontWeight:800, color:'#2563eb', background:'#eff6ff', padding:'2px 8px', borderRadius:6}}>JIRA INTEGRATION</div>
               </div>
-              <p style={{fontSize:'0.75rem', color:'#64748b', marginBottom:12}}>Install this dashboard directly into your Jira home. Copy the manifest URL below and add it to "Jira -> Dashboards -> Manage Gadgets".</p>
+              <p style={{fontSize:'0.75rem', color:'#64748b', marginBottom:12}}>Install this dashboard directly into your Jira home. Copy the manifest URL below and add it to "Jira → Dashboards → Manage Gadgets".</p>
               <div style={{display:'flex', gap:8}}>
                  <input readOnly value={gadgetUrl} className={styles.inputField} style={{background:'#f8fafc', fontSize:'0.7rem', fontFamily:'monospace'}} />
                  <button onClick={() => copyToClipboard(gadgetUrl, 'gadget')} style={{padding:'0 12px', borderRadius:10, border:'1px solid #e2e8f0', background:'white', cursor:'pointer'}}>
